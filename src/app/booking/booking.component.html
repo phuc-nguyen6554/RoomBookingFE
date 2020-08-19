@@ -1,0 +1,23 @@
+<style>
+    .booking-table{
+        width: 100%;
+        text-align: center;
+    }
+</style>
+
+<h1>Bookings</h1>
+<table class="booking-table">
+    <tr>
+        <th>ID</th>
+        <th>Member</th>
+        <th>From</th>
+        <th>To</th>
+    </tr>
+
+    <tr *ngFor="let item of bookings">
+        <td>{{item.id}}</td>
+        <td>{{item.memberEmail}}</td>
+        <td>{{item.from | date:'medium'}}</td>
+        <td>{{item.to | date:'medium'}}</td>
+    </tr>
+</table>
