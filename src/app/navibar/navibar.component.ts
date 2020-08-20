@@ -28,7 +28,10 @@ export class NavibarComponent implements OnInit {
 
   logout(): void{
     localStorage.removeItem('JWT_token');
-    this.authService.signOut();
-    this.router.navigate(['/']);
+    this.authService.signOut()
+      .catch(error => {
+        console.log(error);
+      });
+    this.router.navigate(['/login']);
   }
 }
