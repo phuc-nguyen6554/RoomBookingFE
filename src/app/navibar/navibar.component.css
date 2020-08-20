@@ -1,0 +1,20 @@
+div.navibar{
+    width: 100%;
+    display: flex;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+div.navibar .right-block{
+    margin-left: auto;
+    display: flex;
+}
+
+div.navibar img{
+    width: 30px;
+    height: 30px;
+}
+
+.greeting{
+    margin-right: 10px;
+}

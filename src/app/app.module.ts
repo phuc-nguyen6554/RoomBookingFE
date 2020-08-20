@@ -12,18 +12,26 @@ import {GoogleLoginProvider, SocialLoginModule, SocialAuthServiceConfig} from 'a
 import { JwtModule } from '@auth0/angular-jwt';
 import { CreatebookingComponent } from './createbooking/createbooking.component';
 
+import {FormsModule} from '@angular/forms';
 
-import{FormsModule} from '@angular/forms';
+import {DpDatePickerModule} from 'ng2-date-picker';
+import { NavibarComponent } from './navibar/navibar.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RoomComponent } from './room/room.component';
+import { RoomCreateComponent } from './room-create/room-create.component';
 
-export function tokenGetter() {
-  return localStorage.getItem("JWT_token");
+export function tokenGetter(): string {
+  return localStorage.getItem('JWT_token');
 }
 @NgModule({
   declarations: [
     AppComponent,
     SigninComponent,
     BookingComponent,
-    CreatebookingComponent
+    CreatebookingComponent,
+    NavibarComponent,
+    RoomComponent,
+    RoomCreateComponent
   ],
   imports: [
     BrowserModule,
@@ -33,11 +41,13 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ["example.com"],
-        disallowedRoutes: ["http://example.com/examplebadroute/"],
+        allowedDomains: ['example.com'],
+        disallowedRoutes: ['http://example.com/examplebadroute/'],
       },
     }),
-    FormsModule
+    FormsModule,
+    DpDatePickerModule,
+    NgbModule
   ],
   providers: [
     {

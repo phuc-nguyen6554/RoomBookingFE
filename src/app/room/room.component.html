@@ -1,0 +1,16 @@
+<app-navibar></app-navibar>
+
+<a [routerLink]="['/room-create']">Create Room</a>
+<table class="table table-striped">
+    <tr>
+        <th>ID</th>
+        <th>Room Name</th>
+        <th>Delete</th>
+    </tr>
+
+    <tr *ngFor="let room of rooms">
+        <td>{{room.id}}</td>
+        <td>{{room.roomName}}</td>
+        <td><button class="btn btn-danger">Delete</button></td>
+    </tr>
+</table>

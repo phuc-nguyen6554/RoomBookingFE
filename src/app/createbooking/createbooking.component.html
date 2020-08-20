@@ -1,10 +1,23 @@
-<label for="RoomID">RoomID</label>
-<input type="text" name="roomID" id="roomID" [(ngModel)]="roomID">
-<br>
-<label for="RoomID">From</label>
-<input type="text" name="From" id="From" [(ngModel)]="From">
-<br>
-<label for="RoomID">To</label>
-<input type="text" name="To" id="To" [(ngModel)]="To">
-<br>
-<button (click)="CreateBooking()">Create Booking</button>
+<p *ngFor="let error of Errors">
+    <ngb-alert [type]="error.type" (close)="close(error)">{{ error.message }}</ngb-alert>
+</p>
+<div class="create-form">
+    <div class="input-group">
+        <label for="RoomID">Room</label>
+        <select name="room" id="room" [(ngModel)]="roomID">
+            <option *ngFor="let room of Rooms" value="{{room.id}}" >{{room.roomName}}</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <label for="RoomID">From</label>
+        <dp-date-picker [(ngModel)]="From" [mode]="'daytime'"  [theme]="'dp-material'"></dp-date-picker>
+    </div>
+
+    <div class="input-group">
+        <label for="RoomID">To</label>
+        <dp-date-picker [(ngModel)]="To" [mode]="'daytime'"  [theme]="'dp-material'"></dp-date-picker>
+    </div>
+
+    <button (click)="CreateBooking()">Create Booking</button>
+</div>

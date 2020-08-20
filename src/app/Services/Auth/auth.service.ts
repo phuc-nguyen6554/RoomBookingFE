@@ -6,11 +6,9 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 })
 export class AuthService {
 
-  constructor(private jwtService : JwtHelperService) { }
+  constructor(private jwtService: JwtHelperService) { }
 
   ValidateJWT(): boolean {
-    //const jwt = localStorage.getItem('JWT_token');
-
     return !this.jwtService.isTokenExpired();
   }
 }

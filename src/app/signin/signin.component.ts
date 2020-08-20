@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import { SigninService } from '../signin.service';
+import { SigninService } from '../Services/Auth/signin.service';
 import {SocialAuthService, GoogleLoginProvider} from 'angularx-social-login';
 import { Router } from '@angular/router';
 
@@ -10,8 +10,10 @@ import { Router } from '@angular/router';
 })
 export class SigninComponent implements OnInit {
 
-  constructor(private signService: SigninService, private authService: SocialAuthService, private router: Router) { }
-  auth2: any;
+  constructor(private signService: SigninService, private authService: SocialAuthService, private router: Router) {
+
+   }
+
   ngOnInit(): void {}
 
   signinWithGoogle(): void{
