@@ -14,11 +14,16 @@ import { CreatebookingComponent } from './createbooking/createbooking.component'
 
 import {FormsModule} from '@angular/forms';
 
-import {DpDatePickerModule} from 'ng2-date-picker';
 import { NavibarComponent } from './navibar/navibar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RoomComponent } from './room/room.component';
 import { RoomCreateComponent } from './room-create/room-create.component';
+
+import { MatInputModule } from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MessageComponent } from './message/message.component';
+import { CustomFormatDate } from './customPipe/FormatDate';
 
 export function tokenGetter(): string {
   return localStorage.getItem('JWT_token');
@@ -31,7 +36,9 @@ export function tokenGetter(): string {
     CreatebookingComponent,
     NavibarComponent,
     RoomComponent,
-    RoomCreateComponent
+    RoomCreateComponent,
+    MessageComponent,
+    CustomFormatDate
   ],
   imports: [
     BrowserModule,
@@ -46,8 +53,10 @@ export function tokenGetter(): string {
       },
     }),
     FormsModule,
-    DpDatePickerModule,
-    NgbModule
+    MatFormFieldModule,
+    NgbModule,
+    MatInputModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {

@@ -24,7 +24,7 @@ export class BookingComponent implements OnInit {
 
   getAllBooking(): void{
     this.bookingService.getAllBooking()
-      .subscribe(result => {this.bookings = result; console.log(result) });
+      .subscribe(result => {this.bookings = result; console.log(result); });
   }
 
   delete(id: number): void {

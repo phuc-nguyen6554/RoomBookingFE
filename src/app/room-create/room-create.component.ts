@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RoomService } from '../Services/Room/room.service';
 import { Router } from '@angular/router';
+import { MessageService } from '../Services/Message/message.service';
 
 @Component({
   selector: 'app-room-create',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class RoomCreateComponent implements OnInit {
   roomName: string;
-  constructor(private roomService: RoomService, private router: Router) { }
+  constructor(private roomService: RoomService, private router: Router, private messageService: MessageService) { }
 
   ngOnInit(): void {
   }
@@ -26,7 +27,7 @@ export class RoomCreateComponent implements OnInit {
 
   Validate(): boolean{
     if (this.roomName == null || this.roomName === '') {
-      alert('Please input Room Name');
+      this.messageService.add({type: 'danger', content: 'Please input Room Name'});
       return false;
     }
 

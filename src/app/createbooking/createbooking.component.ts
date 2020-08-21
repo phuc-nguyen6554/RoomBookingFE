@@ -1,10 +1,10 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { BookingService } from '../Services/Booking/booking.service';
-import {Moment} from 'moment';
 import {Room} from '../Models/Room';
 import { RoomService } from '../Services/Room/room.service';
 import { Router } from '@angular/router';
 import { Booking } from '../Models/Booking';
+import { MessageService } from '../Services/Message/message.service';
 
 @Component({
   selector: 'app-createbooking',
@@ -13,14 +13,14 @@ import { Booking } from '../Models/Booking';
 })
 export class CreatebookingComponent implements OnInit {
   roomID: number;
-  From: Moment;
-  To: Moment;
+  From: string;
+  To: string;
 
   Booking: Booking;
   Rooms: Room[];
 
-  Errors = [];
-  constructor(private bookingService: BookingService, private roomService: RoomService, private ref: ElementRef, private router: Router) { }
+  constructor(private bookingService: BookingService, private roomService: RoomService, private ref: ElementRef, private router: Router,
+              private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.setInputWidth();
@@ -28,13 +28,9 @@ export class CreatebookingComponent implements OnInit {
   }
 
   setInputWidth(): void{
-    const dpDatePicker = this.ref.nativeElement.querySelectorAll('dp-date-picker');
+    const dpDatePicker = this.ref.nativeElement.querySelectorAll('mat-form-field');
     for (const item of dpDatePicker){
-      item.style.width = '100%';
-    }
-    const input = this.ref.nativeElement.querySelectorAll('.dp-picker-input');
-    for (const item of input){
-      item.style.width = '100%';
+      item.style.width = '45%';
     }
   }
 
@@ -44,38 +40,37 @@ export class CreatebookingComponent implements OnInit {
   }
 
   CreateBooking(): void{
+    this.messageService.clearAll();
     if (this.Validate()) {
-      this.Booking = {roomID: this.roomID, from: this.From.format(), to: this.To.format()};
+      this.Booking = {roomID: this.roomID, from: this.From, to: this.To};
       this.bookingService.createBooking(this.Booking)
       .subscribe(result => {
         localStorage.setItem('flash_message', 'Booking Created');
         this.router.navigate(['/booking']);
       },
-      error => {this.Errors.push({type : 'danger', message: error.error}); });
+      error => {this.messageService.add({type: 'danger', content: error.error}); });
     }
-  }
-
-  close(error): void{
-    this.Errors = this.Errors.filter(value => {
-      return value !== error;
-    });
   }
 
   private Validate(): boolean{
-    this.Errors = [];
+    let isValid = true;
+
     if (this.roomID == null){
-      this.Errors.push({type: 'danger', message: 'Select a room'});
+      this.messageService.add({type: 'danger', content: 'Please Select a Room'});
+      isValid = false;
     }
 
     if (this.From == null || this.To == null) {
-      this.Errors.push({type: 'danger', message: 'Please select from and to'});
+      this.messageService.add({type: 'danger', content: 'Please Select Time'});
+      isValid = false;
     }
 
-    if (this.From.isAfter(this.To)) {
-      this.Errors.push({type: 'danger', message: 'From is after To ???? Really'});
+    if (this.From >= this.To) {
+      this.messageService.add({type: 'danger', content: 'Time is not Valid'});
+      isValid = false;
     }
 
-    return this.Errors.length === 0;
+    return isValid;
   }
 
 }
