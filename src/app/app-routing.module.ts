@@ -8,6 +8,8 @@ import { CreatebookingComponent } from './createbooking/createbooking.component'
 import { LoggedinService } from './Services/LoggedIn/loggedin.service';
 import { RoomComponent } from './room/room.component';
 import { RoomCreateComponent } from './room-create/room-create.component';
+import {LeaveComponent} from './leave-request/leave.component';
+import {CreateLeaveRequestComponent} from './create-leave-request/createleave.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/booking', pathMatch: 'full'},
@@ -16,6 +18,10 @@ const routes: Routes = [
   // Book
   { path: 'booking', component: BookingComponent , canActivate: [AuthGuardService]},
   { path: 'booking-create', component: CreatebookingComponent , canActivate: [AuthGuardService]},
+
+  // Leave request
+  { path: 'leave-request', component: LeaveComponent , canActivate: [AuthGuardService]},
+  { path: 'leave-request-create', component: CreateLeaveRequestComponent , canActivate: [AuthGuardService]},
 
   // Room
   { path: 'room', component: RoomComponent, canActivate:[AuthGuardService]},

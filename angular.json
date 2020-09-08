@@ -124,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "booking-app"
+  "defaultProject": "booking-app",
+  "cli": {
+    "analytics": false
+  }
 }
