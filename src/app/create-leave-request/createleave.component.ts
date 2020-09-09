@@ -1,9 +1,10 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { LeaveService } from '../Services/LeaveRequest/leave.service';
-import { RoomService } from '../Services/Room/room.service';
+import { TypeService } from '../Services/LeaveRequest/type.service';
+import { LeaveType } from '../Models/LeaveType';
 import { Router } from '@angular/router';
-
 import { MessageService } from '../Services/Message/message.service';
+
 
 @Component({
   selector: 'app-create-leave-request',
@@ -16,11 +17,18 @@ export class CreateLeaveRequestComponent implements OnInit {
   leaveReason: string;
   leaveTime: number;
   leaveType: number;
-  constructor(private leaveService: LeaveService, private roomService: RoomService, private ref: ElementRef, private router: Router,
+  LeaveType: LeaveType[];
+  constructor(private leaveService: LeaveService, private typeService: TypeService, private ref: ElementRef, private router: Router,
               private messageService: MessageService) { }
 
   ngOnInit(): void {
+    this.getType();
     this.setInputWidth();
+  }
+
+  getType(): void{
+    this.typeService.getType()
+      .subscribe(result => this.LeaveType = result);
   }
 
   setInputWidth(): void{
