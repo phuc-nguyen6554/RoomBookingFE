@@ -24,6 +24,12 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessageComponent } from './message/message.component';
 import { CustomFormatDate } from './customPipe/FormatDate';
+import {LeaveComponent} from './leave-request/leave.component';
+import {CreateLeaveRequestComponent} from './create-leave-request/createleave.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatRadioModule} from '@angular/material/radio';
 
 export function tokenGetter(): string {
   return localStorage.getItem('JWT_token');
@@ -38,7 +44,9 @@ export function tokenGetter(): string {
     RoomComponent,
     RoomCreateComponent,
     MessageComponent,
-    CustomFormatDate
+    CustomFormatDate,
+    LeaveComponent,
+    CreateLeaveRequestComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +55,7 @@ export function tokenGetter(): string {
     SocialLoginModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: tokenGetter,
+        tokenGetter,
         allowedDomains: ['example.com'],
         disallowedRoutes: ['http://example.com/examplebadroute/'],
       },
@@ -56,7 +64,11 @@ export function tokenGetter(): string {
     MatFormFieldModule,
     NgbModule,
     MatInputModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatCheckboxModule,
+    MatNativeDateModule,
+    MatRadioModule
   ],
   providers: [
     {

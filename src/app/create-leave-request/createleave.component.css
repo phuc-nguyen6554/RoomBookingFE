@@ -1,3 +1,7 @@
+.mat-radio-button ~ .mat-radio-button {
+  display:block !important;
+}
+
 div.create-form{
     width:40%;
     margin-left: 30%;
@@ -31,6 +35,7 @@ div.group-inline .right{
     margin-top: 10px;
     padding: 10px;
     background-color: forestgreen;
+    color:white;
 }
 
 .calendar{
