@@ -21,7 +21,7 @@
     </tr>
 
     <tr *ngFor="let item of bookings">
-        <td>{{item.room.roomName}}</td>
+        <td>{{item.roomName}}</td>
         <td>{{item.memberEmail}}</td>
         <td>{{item.from | customFormatDate }}</td>
         <td>{{item.to | customFormatDate }}</td>
