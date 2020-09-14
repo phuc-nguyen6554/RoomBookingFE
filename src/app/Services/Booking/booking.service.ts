@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {map} from 'rxjs/operators';
 import { Booking } from '../../Models/Booking';
+import { CalendarEvent } from 'angular-calendar';
 
 @Injectable({
   providedIn: 'root'
