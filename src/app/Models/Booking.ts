@@ -2,7 +2,7 @@ import {Room} from './Room';
 
 export class Booking{
     id?: number;
-    roomName: string;
+    roomName?: string;
     memberEmail?: string;
     roomID: number;
     from: string;
