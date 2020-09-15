@@ -5,7 +5,7 @@ export class Booking{
     roomName?: string;
     memberEmail?: string;
     memberName?: string;
-    roomID: number;
+    roomID?: number;
     from: string;
     to: string;
     description?: string;

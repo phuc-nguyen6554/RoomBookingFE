@@ -1,17 +1,13 @@
-// import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-// import { BookingService } from '../Services/Booking/booking.service';
-// import {Room} from '../Models/Room';
-// import { RoomService } from '../Services/Room/room.service';
-// import { Router } from '@angular/router';
-// import { Booking } from '../Models/Booking';
-// import { MessageService } from '../Services/Message/message.service';
-
 import {Component, ViewChild, TemplateRef, OnInit} from '@angular/core';
-import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours, format} from 'date-fns';
+import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours, format, parse} from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView} from 'angular-calendar';
 import {BookingService} from '../Services/Booking/booking.service';
+import {RoomService} from '../Services/Room/room.service';
+import { Booking } from '../Models/Booking';
+import { Room } from '../Models/Room';
+import { CalendarMeta } from '../Models/CalendarMeta';
 
 const colors: any = {
   red: {
@@ -34,7 +30,7 @@ const colors: any = {
   styleUrls: ['./createbooking.component.css']
 })
 export class CreatebookingComponent implements OnInit {
-  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;  
+  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
 
@@ -67,22 +63,31 @@ export class CreatebookingComponent implements OnInit {
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [];
+  events: CalendarEvent<CalendarMeta>[] = [];
+  newEvent: CalendarEvent<CalendarMeta>;
 
-  activeDayIsOpen = true;
+  editingEvents: number[] = [-1];
+  disabled = true;
 
-  constructor(private modal: NgbModal, private bookingService: BookingService) {}
+  room: Room;
+
+  activeDayIsOpen = false;
+
+  constructor(private modal: NgbModal, private bookingService: BookingService, private roomsService: RoomService) {}
 
   ngOnInit(): void{
     this.getEvent();
+    this.getRooms();
   }
 
   getEvent(): void{
+    this.events = [];
     this.bookingService.getAllBooking()
       .subscribe(response => {
         for ( const item of response)
         {
-          const event: CalendarEvent = {
+          const event: CalendarEvent<CalendarMeta> = {
+            id: item.id,
             start: new Date(item.from),
             end: new Date(item.to),
             title: format(new Date(item.from), 'H:mm') + ' ' + item.memberName,
@@ -93,10 +98,15 @@ export class CreatebookingComponent implements OnInit {
               afterEnd: true,
             },
             draggable: true,
+            meta: {
+              memberName: item.memberName,
+              memberEmail: item.memberEmail
+            }
           };
 
-          this.events.push(event);
+          this.events = [...this.events, event];
         }
+        console.log(this.events);
       });
   }
 
@@ -129,7 +139,16 @@ export class CreatebookingComponent implements OnInit {
       }
       return iEvent;
     });
-    this.handleEvent('Dropped or resized', event);
+    // this.handleEvent('Dropped or resized', event);
+    this.dataChanged(event);
+  }
+
+  dataChanged(event: CalendarEvent): void{
+    this.editingEvents.push(parseInt(event.id.toString(), null));
+
+    let index = this.events.findIndex(x => x.id === event.id);
+    console.log(index);
+    this.events[index].title = 'Thay doi goi ne';
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
@@ -138,9 +157,8 @@ export class CreatebookingComponent implements OnInit {
   }
 
   addEvent(): void {
-    this.events = [
-      ...this.events,
-      {
+    this.events = [...this.events, {
+        id: -1,
         title: 'New event',
         start: startOfDay(new Date()),
         end: endOfDay(new Date()),
@@ -150,80 +168,65 @@ export class CreatebookingComponent implements OnInit {
           beforeStart: true,
           afterEnd: true,
         },
-      },
-    ];
+        meta: {
+          memberName: '',
+          memberEmail: ''
+        }
+    }];
   }
 
-  deleteEvent(eventToDelete: CalendarEvent) {
+  saveEvent(event: CalendarEvent<CalendarMeta>): void{
+    const booking: Booking = {
+      id: parseInt(event.id.toString(), null),
+      from: format(event.start, 'Y/M/d H:m'),
+      to: format(event.end, 'Y/M/d H:m'),
+      roomID: this.room.id,
+      memberName: event.meta.memberName,
+      memberEmail: event.meta.memberEmail
+    };
+    if (event.id === -1)
+    {
+      this.bookingService.createBooking(booking)
+        .subscribe(result => {
+          console.log(result);
+          this.getEvent();
+        },
+        error => {
+          this.handleError(error);
+        });
+    }else{
+      this.bookingService.updateBooking(booking)
+        .subscribe(result => {
+          console.log(result);
+          this.editingEvents = this.editingEvents.filter(value => {
+            return value !== booking.id;
+          });
+        }, error => {
+          this.handleError(error);
+        });
+    }
+  }
+
+  handleError(error): void{
+    console.log(error);
+    alert(error.error);
+  }
+
+  deleteEvent(eventToDelete: CalendarEvent): void {
     this.events = this.events.filter((event) => event !== eventToDelete);
   }
 
-  setView(view: CalendarView) {
+  setView(view: CalendarView): void {
     this.view = view;
   }
 
-  closeOpenMonthViewDay() {
+  closeOpenMonthViewDay(): void {
     this.activeDayIsOpen = false;
   }
-  // roomID: number;
-  // From: string;
-  // To: string;
 
-  // Booking: Booking;
-  // Rooms: Room[];
-
-  // constructor(private bookingService: BookingService, private roomService: RoomService, private ref: ElementRef, private router: Router,
-  //             private messageService: MessageService) { }
-
-  // ngOnInit(): void {
-  //   this.setInputWidth();
-  //   this.getRoom();
-  // }
-
-  // setInputWidth(): void{
-  //   const dpDatePicker = this.ref.nativeElement.querySelectorAll('mat-form-field');
-  //   for (const item of dpDatePicker){
-  //     item.style.width = '45%';
-  //   }
-  // }
-
-  // getRoom(): void{
-  //   this.roomService.getRoom()
-  //     .subscribe(result => this.Rooms = result);
-  // }
-
-  // CreateBooking(): void{
-  //   this.messageService.clearAll();
-  //   if (this.Validate()) {
-  //     this.Booking = {roomID: this.roomID, from: this.From, to: this.To};
-  //     this.bookingService.createBooking(this.Booking)
-  //     .subscribe(result => {
-  //       localStorage.setItem('flash_message', 'Booking Created');
-  //       this.router.navigate(['/booking']);
-  //     },
-  //     error => {this.messageService.add({type: 'danger', content: error.error}); });
-  //   }
-  // }
-
-  // private Validate(): boolean{
-  //   let isValid = true;
-
-  //   if (this.roomID == null){
-  //     this.messageService.add({type: 'danger', content: 'Please Select a Room'});
-  //     isValid = false;
-  //   }
-
-  //   if (this.From == null || this.To == null) {
-  //     this.messageService.add({type: 'danger', content: 'Please Select Time'});
-  //     isValid = false;
-  //   }
-
-  //   if (this.From >= this.To) {
-  //     this.messageService.add({type: 'danger', content: 'Time is not Valid'});
-  //     isValid = false;
-  //   }
-
-  //   return isValid;
-  // }
+  getRooms(): void{
+    this.roomsService.getRoom()
+      .subscribe(result => this.room = result[0]);
+  }
 
 }

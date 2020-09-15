@@ -133,9 +133,10 @@
         <tr>
           <th>Title</th>
           <th>Primary color</th>
-          <th>Secondary color</th>
+          <th>Room</th>
           <th>Starts at</th>
           <th>Ends at</th>
+          <th>Save Change</th>
           <th>Remove</th>
         </tr>
       </thead>
@@ -158,11 +159,7 @@
             />
           </td>
           <td>
-            <input
-              type="color"
-              [(ngModel)]="event.color.secondary"
-              (change)="refresh.next()"
-            />
+            <h4 *ngIf="room">{{room.roomName}}</h4>
           </td>
           <td>
             <input
@@ -177,6 +174,7 @@
               dateFormat="Y-m-dTH:i"
               altFormat="F j, Y H:i"
               placeholder="Not set"
+              (change)="dataChanged(event)"
             />
           </td>
           <td>
@@ -192,7 +190,13 @@
               dateFormat="Y-m-dTH:i"
               altFormat="F j, Y H:i"
               placeholder="Not set"
+              (change)="dataChanged(event)"
             />
+          </td>
+          <td>
+            <button class="btn btn-success" (click)="saveEvent(event)" [attr.disabled]="editingEvents.indexOf(event.id) == -1 ? true: null">
+              Save Change
+            </button>
           </td>
           <td>
             <button class="btn btn-danger" (click)="deleteEvent(event)">
