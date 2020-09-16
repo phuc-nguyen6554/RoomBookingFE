@@ -37,8 +37,6 @@ import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { uk_UA } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import uk from '@angular/common/locales/uk';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/moment';
 import { CommonModule } from '@angular/common';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -52,6 +50,9 @@ export function momentAdapterFactory() {
 }
 
 registerLocaleData(uk);
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 export function tokenGetter(): string {
   return localStorage.getItem('JWT_token');
@@ -76,6 +77,7 @@ export function tokenGetter(): string {
     HttpClientModule,
     AppRoutingModule,
     SocialLoginModule,
+    FlatpickrModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter,

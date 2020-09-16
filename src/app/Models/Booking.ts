@@ -2,9 +2,10 @@ import {Room} from './Room';
 
 export class Booking{
     id?: number;
-    room?: Room;
+    roomName?: string;
     memberEmail?: string;
-    roomID: number;
+    memberName?: string;
+    roomID?: number;
     from: string;
     to: string;
     description?: string;

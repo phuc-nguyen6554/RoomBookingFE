@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Room } from '../../Models/Room';
+import {config} from '../config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoomService {
-  apiEndpoint = 'https://localhost:44350/gateway/Rooms';
+  apiEndpoint = config.gateway + 'bookings/rooms';
   header: HttpHeaders;
 
   constructor(private http: HttpClient) {
