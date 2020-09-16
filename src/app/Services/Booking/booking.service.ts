@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Booking } from '../../Models/Booking';
+import {config} from '../config';
+import {RoomService} from '../Room/room.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +11,9 @@ import { Booking } from '../../Models/Booking';
 export class BookingService {
   header: HttpHeaders;
 
-  apiEndpoint = 'https://localhost:44350/gateway/Bookings';
+  apiEndpoint = config.gateway + 'bookings/bookings';
 
-  constructor(private http: HttpClient) {
-    const token = localStorage.getItem('JWT_token');
+  constructor(private http: HttpClient, private roomService: RoomService) {
     this.header = new HttpHeaders()
      .set('Content-Type', 'application/json')
      .set('Accept', 'application/json')
@@ -25,6 +26,10 @@ export class BookingService {
 
   createBooking(booking: Booking): Observable<any>{
     return this.http.post<any>(this.apiEndpoint, booking, {headers: this.header, observe: 'response'});
+  }
+
+  updateBooking(booking: Booking): Observable<any>{
+    return this.http.put(this.apiEndpoint + `/${booking.id}`, booking, {headers: this.header, observe: 'response'});
   }
 
   deleteBooking(id: number): Observable<any>{

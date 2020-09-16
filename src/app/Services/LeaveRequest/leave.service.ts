@@ -9,7 +9,7 @@ import { Leave } from '../../Models/Leave';
 export class LeaveService {
   header: HttpHeaders;
 
-  apiEndpoint = 'https://localhost:44350/gateway/LeaveRequest';
+  apiEndpoint = 'http://localhost:2000/leaves/';
 
   constructor(private http: HttpClient) {
     const token = localStorage.getItem('JWT_token');

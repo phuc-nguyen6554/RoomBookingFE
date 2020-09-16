@@ -30,6 +30,9 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatRadioModule} from '@angular/material/radio';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 export function tokenGetter(): string {
   return localStorage.getItem('JWT_token');
@@ -53,6 +56,7 @@ export function tokenGetter(): string {
     HttpClientModule,
     AppRoutingModule,
     SocialLoginModule,
+    FlatpickrModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter,
@@ -68,7 +72,8 @@ export function tokenGetter(): string {
     MatDatepickerModule,
     MatCheckboxModule,
     MatNativeDateModule,
-    MatRadioModule
+    MatRadioModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
   providers: [
     {
