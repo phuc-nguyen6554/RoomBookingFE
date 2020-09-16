@@ -11,21 +11,26 @@ import { RoomCreateComponent } from './room-create/room-create.component';
 import {LeaveComponent} from './leave-request/leave.component';
 import {CreateLeaveRequestComponent} from './create-leave-request/createleave.component';
 
-const routes: Routes = [
-  { path: '', redirectTo: '/booking', pathMatch: 'full'},
-  { path: 'login', component: SigninComponent, canActivate: [LoggedinService]},
+let routes: Routes;
+routes = [
+  {path: '', redirectTo: '/booking', pathMatch: 'full'},
+  {path: 'login', component: SigninComponent, canActivate: [LoggedinService]},
 
   // Book
-  { path: 'booking', component: BookingComponent , canActivate: [AuthGuardService]},
-  { path: 'booking-create', component: CreatebookingComponent , canActivate: [AuthGuardService]},
+  {path: 'booking', component: BookingComponent, canActivate: [AuthGuardService]},
+  {path: 'booking-create', component: CreatebookingComponent, canActivate: [AuthGuardService]},
 
   // Leave request
-  { path: 'leave-request', component: LeaveComponent , canActivate: [AuthGuardService]},
-  { path: 'leave-request-create', component: CreateLeaveRequestComponent , canActivate: [AuthGuardService]},
+  {path: 'leave-request', component: LeaveComponent, canActivate: [AuthGuardService]},
+  {path: 'leave-request-create', component: CreateLeaveRequestComponent, canActivate: [AuthGuardService]},
 
   // Room
-  { path: 'room', component: RoomComponent, canActivate:[AuthGuardService]},
-  { path: 'room-create', component: RoomCreateComponent, canActivate: [AuthGuardService]}
+  {path: 'room', component: RoomComponent, canActivate: [AuthGuardService]},
+  {path: 'room-create', component: RoomCreateComponent, canActivate: [AuthGuardService]},
+
+  // Welcome
+  {path: '', pathMatch: 'full', redirectTo: '/welcome'},
+  {path: 'welcome', loadChildren: () => import('./pages/welcome/welcome.module').then(m => m.WelcomeModule)}
 ];
 
 @NgModule({
