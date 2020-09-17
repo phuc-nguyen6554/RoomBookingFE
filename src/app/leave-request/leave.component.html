@@ -21,7 +21,7 @@
        <th></th>
     </tr>
 
-      <tr *ngFor="let item of leaves">
+      <tr *ngFor="let item of leaves" id="{{item.id}}">
         <td>{{item.name}}</td>
         <td>{{item.leaveDates | customFormatDate}}</td>
         <td>{{item.leaveTime}}</td>
