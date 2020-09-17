@@ -44,10 +44,11 @@ import { CalendarComponent } from './calendar/component';
 
 import * as moment from 'moment';
 
-// tslint:disable-next-line:typedef
+/*
 export function momentAdapterFactory() {
   return adapterFactory(moment);
 }
+*/
 
 registerLocaleData(uk);
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -97,7 +98,9 @@ export function tokenGetter(): string {
     IconsProviderModule,
     NzLayoutModule,
     NzMenuModule,
+    /*
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: momentAdapterFactory }),
+    */
     CommonModule,
     FormsModule,
     NgbModalModule,
