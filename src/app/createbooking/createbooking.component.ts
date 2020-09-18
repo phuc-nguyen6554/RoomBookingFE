@@ -129,7 +129,6 @@ export class CreatebookingComponent implements OnInit {
     newStart,
     newEnd,
   }: CalendarEventTimesChangedEvent): void {
-    console.log('Changed', event);
     this.events = this.events.map((iEvent) => {
       if (iEvent === event) {
         return {
@@ -144,12 +143,12 @@ export class CreatebookingComponent implements OnInit {
     this.dataChanged(event);
   }
 
-  dataChanged(event: CalendarEvent<CalendarMeta>): void{
+  dataChanged(event: CalendarEvent): void{
     this.editingEvents.push(parseInt(event.id.toString(), null));
 
     // const index = this.events.findIndex(x => x.id === event.id);
     // console.log(index);
-    // this.events[index].title = format(new Date(event.start), 'H:mm') + ' ' + event.meta.memberName;
+    // this.events[index].title = 'Thay doi goi ne';
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
@@ -177,6 +176,10 @@ export class CreatebookingComponent implements OnInit {
   }
 
   saveEvent(event: CalendarEvent<CalendarMeta>): void{
+    if (event.start > event.end) {
+      alert('Start must be before End');
+      return;
+    }
     const booking: Booking = {
       id: parseInt(event.id.toString(), null),
       from: format(event.start, 'Y/M/d H:m'),
