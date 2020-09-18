@@ -129,6 +129,7 @@ export class CreatebookingComponent implements OnInit {
     newStart,
     newEnd,
   }: CalendarEventTimesChangedEvent): void {
+    console.log('Changed', event);
     this.events = this.events.map((iEvent) => {
       if (iEvent === event) {
         return {
@@ -143,12 +144,12 @@ export class CreatebookingComponent implements OnInit {
     this.dataChanged(event);
   }
 
-  dataChanged(event: CalendarEvent): void{
+  dataChanged(event: CalendarEvent<CalendarMeta>): void{
     this.editingEvents.push(parseInt(event.id.toString(), null));
 
-    let index = this.events.findIndex(x => x.id === event.id);
-    console.log(index);
-    this.events[index].title = 'Thay doi goi ne';
+    // const index = this.events.findIndex(x => x.id === event.id);
+    // console.log(index);
+    // this.events[index].title = format(new Date(event.start), 'H:mm') + ' ' + event.meta.memberName;
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
@@ -201,6 +202,7 @@ export class CreatebookingComponent implements OnInit {
           this.editingEvents = this.editingEvents.filter(value => {
             return value !== booking.id;
           });
+          this.getEvent();
         }, error => {
           this.handleError(error);
         });
@@ -213,7 +215,10 @@ export class CreatebookingComponent implements OnInit {
   }
 
   deleteEvent(eventToDelete: CalendarEvent): void {
-    this.events = this.events.filter((event) => event !== eventToDelete);
+    this.bookingService.deleteBooking(parseInt(eventToDelete.id.toString(), null))
+      .subscribe(result => {
+        this.events = this.events.filter((event) => event !== eventToDelete);
+      });
   }
 
   setView(view: CalendarView): void {

@@ -132,7 +132,6 @@
       <thead>
         <tr>
           <th>Title</th>
-          <th>Primary color</th>
           <th>Room</th>
           <th>Starts at</th>
           <th>Ends at</th>
@@ -149,13 +148,6 @@
               class="form-control"
               [(ngModel)]="event.title"
               (keyup)="refresh.next()"
-            />
-          </td>
-          <td>
-            <input
-              type="color"
-              [(ngModel)]="event.color.primary"
-              (change)="refresh.next()"
             />
           </td>
           <td>
