@@ -32,12 +32,15 @@ export class LeaveComponent implements OnInit {
       .subscribe(result => {
         console.log(result.body);
         this.leaves = this.leaves.filter(value => {
-          return value.id !== result.body.id;
+          return value.id !== id;
         });
+        this.message = {type: 'success', message: 'Delete Success'};
       },
       error => {
         this.message = {type: 'danger', message: error.error};
-      });
+      },
+      () => {}
+      );
   }
 
   close(): void{

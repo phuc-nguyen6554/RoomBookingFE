@@ -3,7 +3,7 @@ export class Leave{
     name?: string;
     leaveTime?: string;
     leaveDates: string;
-    leaveTypes?: string;
+    leaveType?: string;
     reason?: string;
     memberName?: string;
     memberEmail?: string;
