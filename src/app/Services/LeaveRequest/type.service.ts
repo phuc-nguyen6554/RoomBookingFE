@@ -7,7 +7,7 @@ import { LeaveType } from '../../Models/LeaveType';
   providedIn: 'root'
 })
 export class TypeService {
-  apiEndpoint = 'https://localhost:44350/gateway/LeaveType';
+  apiEndpoint = 'http://localhost:2000/leaves/leave-types/list';
   header: HttpHeaders;
 
   constructor(private http: HttpClient) {

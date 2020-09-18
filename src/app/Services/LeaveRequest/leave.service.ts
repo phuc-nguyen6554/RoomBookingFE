@@ -9,7 +9,9 @@ import { Leave } from '../../Models/Leave';
 export class LeaveService {
   header: HttpHeaders;
 
-  apiEndpoint = 'http://localhost:2000/leaves/';
+  apiEndpointList = 'http://localhost:2000/leaves/request/list';
+  apiEndpointCreate = 'http://localhost:2000/leaves/request/create';
+  apiEndpointDelete = 'http://localhost:2000/leaves/request/delete';
 
   constructor(private http: HttpClient) {
     const token = localStorage.getItem('JWT_token');
@@ -20,14 +22,14 @@ export class LeaveService {
   }
 
   getAllLeave(): Observable<Leave[]>{
-    return this.http.get<Leave[]>(this.apiEndpoint, {headers: this.header});
+    return this.http.get<Leave[]>(this.apiEndpointList, {headers: this.header});
   }
 
   createLeave(leave: Leave): Observable<any>{
-    return this.http.post<any>(this.apiEndpoint, leave, {headers: this.header, observe: 'response'});
+    return this.http.post<any>(this.apiEndpointCreate, leave, {headers: this.header, observe: 'response'});
   }
 
   deleteBooking(id: number): Observable<any>{
-    return this.http.delete(this.apiEndpoint + `/${id}`, {headers: this.header, observe: 'response'} );
+    return this.http.delete(this.apiEndpointDelete + `/${id}`, {headers: this.header, observe: 'response'} );
   }
 }

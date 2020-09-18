@@ -30,6 +30,27 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatRadioModule} from '@angular/material/radio';
+import { IconsProviderModule } from './icons-provider.module';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { uk_UA } from 'ng-zorro-antd/i18n';
+import { registerLocaleData } from '@angular/common';
+import uk from '@angular/common/locales/uk';
+import { CommonModule } from '@angular/common';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { CalendarComponent } from './calendar/component';
+
+import * as moment from 'moment';
+
+/*
+export function momentAdapterFactory() {
+  return adapterFactory(moment);
+}
+*/
+
+registerLocaleData(uk);
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
@@ -49,7 +70,8 @@ export function tokenGetter(): string {
     MessageComponent,
     CustomFormatDate,
     LeaveComponent,
-    CreateLeaveRequestComponent
+    CreateLeaveRequestComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +95,19 @@ export function tokenGetter(): string {
     MatCheckboxModule,
     MatNativeDateModule,
     MatRadioModule,
-    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
+    IconsProviderModule,
+    NzLayoutModule,
+    NzMenuModule,
+    /*
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: momentAdapterFactory }),
+    */
+    CommonModule,
+    FormsModule,
+    NgbModalModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   providers: [
     {
@@ -89,7 +123,8 @@ export function tokenGetter(): string {
           },
         ],
       } as SocialAuthServiceConfig,
-    }
+    },
+    { provide: NZ_I18N, useValue: uk_UA }
   ],
   bootstrap: [AppComponent]
 })
