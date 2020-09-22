@@ -89,7 +89,7 @@ export class CreateLeaveRequestComponent implements OnInit {
       isValid = false;
     }
 
-    if (this.leaveDates == null) {
+    if (this.leaveDates == 0) {
       this.messageService.add({type: 'danger', content: 'Please Select Leave Date'});
       isValid = false;
     }
