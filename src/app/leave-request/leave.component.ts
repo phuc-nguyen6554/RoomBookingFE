@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { LeaveService } from '../Services/LeaveRequest/leave.service';
 import { Router } from '@angular/router';
 import {Leave} from '../Models/Leave';
+import { LeaveType } from '../Models/LeaveType';
+import {TypeService} from '../Services/LeaveRequest/type.service';
+import {MatRadioChange} from '@angular/material/radio';
 
 @Component({
   selector: 'app-leave',
@@ -11,19 +14,40 @@ import {Leave} from '../Models/Leave';
 export class LeaveComponent implements OnInit {
   leaves: Leave[];
   message: any;
-
-  constructor(private leaveService: LeaveService, private router: Router) {}
+  leaveType: number;
+  LeaveType: LeaveType[];
+  constructor(private leaveService: LeaveService, private router: Router, private typeService: TypeService) {}
 
   ngOnInit(): void {
     this.getAllLeave();
+    this.getType();
     if (localStorage.getItem('flash_message') != null) {
       this.message = {type: 'success', message: localStorage.getItem('flash_message')};
       localStorage.removeItem('flash_message');
     }
   }
+  getType(): void{
+    this.typeService.getType()
+      .subscribe(result => this.LeaveType = result);
+  }
 
   getAllLeave(): void{
     this.leaveService.getAllLeave()
+      .subscribe(result => {this.leaves = result; console.log(result); });
+  }
+
+  // tslint:disable-next-line:typedef
+  onChangeDatesEvent(event: any){
+    this.getFilterLeave({leaveDates: event.target.value});
+  }
+
+  // tslint:disable-next-line:typedef
+  radioChange(event: MatRadioChange) {
+    this.getFilterLeave({LeaveTypeId: event.value});
+  }
+
+  getFilterLeave(obj): void{
+    this.leaveService.getFilterLeave(obj)
       .subscribe(result => {this.leaves = result; console.log(result); });
   }
 

@@ -8,8 +8,38 @@
 <p >
     <ngb-alert [type]="message.type" *ngIf="message" (close)="close()">{{ message.message }}</ngb-alert>
 </p>
-
 <a [routerLink]="['/leave-request-create']" class="btn btn-link">Create Leave Request</a>
+
+<div class="input-group">
+  <mat-label>Leave Type</mat-label>
+</div>
+
+<div class="input-group">
+  <mat-radio-group [(ngModel)]="leaveType" aria-label="Select an option">
+    <mat-radio-button *ngFor="let item of LeaveType" (change)="radioChange($event)" value="{{item.id}}">{{item.name}}</mat-radio-button>
+  </mat-radio-group>
+</div>
+
+<div class="input-group">
+  <mat-label>AM/PM/All day</mat-label>
+</div>
+
+<div class="input-group">
+  <mat-radio-group aria-label="Select an option">
+    <mat-radio-button (click)="getFilterLeave({'LeaveTime':'AM'})" value="AM">AM</mat-radio-button>
+    <mat-radio-button (click)="getFilterLeave({'LeaveTime':'PM'})" value="PM">PM</mat-radio-button>
+      <mat-radio-button (click)="getFilterLeave({'LeaveTime':'Fullday'})" value="Fullday">Fullday</mat-radio-button>
+  </mat-radio-group>
+</div>
+
+<div class="input-group">
+  <mat-form-field appearance="fill">
+    <mat-label>Leave Date</mat-label>
+    <input matInput type="date"
+           placeholder="Enter leave date" (change)="onChangeDatesEvent($event)">
+  </mat-form-field>
+</div>
+
 <table class="booking-table table table-striped">
     <tr>
         <th>Name</th>
