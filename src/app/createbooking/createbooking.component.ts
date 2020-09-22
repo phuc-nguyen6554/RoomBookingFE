@@ -8,7 +8,6 @@ import {RoomService} from '../Services/Room/room.service';
 import { Booking } from '../Models/Booking';
 import { Room } from '../Models/Room';
 import { CalendarMeta } from '../Models/CalendarMeta';
-import { TestModel } from '../Models/TestModel';
 
 const colors: any = {
   red: {
