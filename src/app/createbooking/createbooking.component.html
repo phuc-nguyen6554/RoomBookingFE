@@ -1,28 +1,3 @@
-<!-- <app-message></app-message>
-
-<div class="create-form">
-    <h1>Booking Room</h1>
-    <div class="input-group">
-        <label for="RoomID">Room</label>
-        <select name="room" id="room" [(ngModel)]="roomID" class="my-input">
-            <option *ngFor="let room of Rooms" value="{{room.id}}" >{{room.roomName}}</option>
-        </select>
-    </div>
-
-    <div class="input-group group-inline">
-        <mat-form-field>
-            <input matInput [(ngModel)]="From" type="datetime-local" placeholder="From">
-        </mat-form-field>
-
-        <mat-form-field class="right">
-            <input matInput [(ngModel)]="To" type="datetime-local" placeholder="To">
-        </mat-form-field>
-    </div>
-
-    <button class="create-btn" (click)="CreateBooking()">Create Booking</button>
-
-</div> -->
-
 <div class="row text-center">
     <div class="col-md-4">
       <div class="btn-group">
@@ -133,10 +108,10 @@
         <tr>
           <th>Title</th>
           <th>Room</th>
-          <th>Starts at</th>
-          <th>Ends at</th>
-          <th>Save Change</th>
-          <th>Remove</th>
+          <th>Date</th>
+          <th>Starts Time</th>
+          <th>Ends Time</th>
+          <th style="width: 10%">Actions</th>
         </tr>
       </thead>
   
@@ -146,53 +121,50 @@
             <input
               type="text"
               class="form-control"
-              [(ngModel)]="event.title"
+              [(ngModel)]="event.meta.description"
               (keyup)="refresh.next()"
             />
-          </td>
+          </td> <!--Title-->
           <td>
             <h4 *ngIf="room">{{room.roomName}}</h4>
-          </td>
+          </td> <!--Room-->
           <td>
             <input
               class="form-control"
               type="text"
               mwlFlatpickr
-              [(ngModel)]="event.start"
+              [(ngModel)]="event.meta.date"
               (ngModelChange)="refresh.next()"
-              [altInput]="true"
-              [convertModelValue]="true"
-              [enableTime]="true"
-              dateFormat="Y-m-dTH:i"
-              altFormat="F j, Y H:i"
-              placeholder="Not set"
-              (change)="dataChanged(event)"
             />
-          </td>
+          </td> <!--Date altFormat="F j, Y H:i"-->
           <td>
             <input
-              class="form-control"
-              type="text"
-              mwlFlatpickr
-              [(ngModel)]="event.end"
-              (ngModelChange)="refresh.next()"
-              [altInput]="true"
-              [convertModelValue]="true"
-              [enableTime]="true"
-              dateFormat="Y-m-dTH:i"
-              altFormat="F j, Y H:i"
-              placeholder="Not set"
-              (change)="dataChanged(event)"
-            />
-          </td>
+                class="form-control"
+                type="text"
+                mwlFlatpickr
+                [(ngModel)]="event.meta.startTime"
+                [noCalendar]="true"
+                [enableTime]="true"
+                [dateFormat]="'H:i'"              
+              >
+          </td> <!--Start time-->
           <td>
-            <button class="btn btn-success" (click)="saveEvent(event)" [attr.disabled]="editingEvents.indexOf(event.id) == -1 ? true: null">
-              Save Change
+            <input
+                class="form-control"
+                type="text"
+                mwlFlatpickr
+                [(ngModel)]="event.meta.endTime"
+                [noCalendar]="true"
+                [enableTime]="true"
+                [dateFormat]="'H:i'"
+              >
+          </td> <!--end time [attr.disabled]="editingEvents.indexOf(event.id) == -1 ? true: null"-->
+          <td>
+            <button class="invisible-btn" (click)="saveEvent(event)" >
+              <img src="assets/Icons/save.png" style="width: 80%" alt="">
             </button>
-          </td>
-          <td>
-            <button class="btn btn-danger" (click)="deleteEvent(event)">
-              Delete
+            <button class="invisible-btn" (click)="deleteEvent(event)">
+              <img src="assets/Icons/delete.png" style="width: 80%" alt="">
             </button>
           </td>
         </tr>
