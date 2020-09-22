@@ -4,6 +4,7 @@ import { TypeService } from '../Services/LeaveRequest/type.service';
 import { LeaveType } from '../Models/LeaveType';
 import { Router } from '@angular/router';
 import { MessageService } from '../Services/Message/message.service';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 
 
 @Component({
@@ -12,6 +13,9 @@ import { MessageService } from '../Services/Message/message.service';
   styleUrls: ['./createleave.component.css']
 })
 export class CreateLeaveRequestComponent implements OnInit {
+  leaveDateNums = [Math.random()];
+  leaveDates: string[] = [];
+
   leaveName: string;
   leaveDate: string;
   leaveReason: string;
@@ -20,6 +24,11 @@ export class CreateLeaveRequestComponent implements OnInit {
   LeaveType: LeaveType[];
   constructor(private leaveService: LeaveService, private typeService: TypeService, private ref: ElementRef, private router: Router,
               private messageService: MessageService) { }
+
+  // tslint:disable-next-line:typedef
+  onChangeDatesEvent(event: any){
+    this.leaveDates.push(event.target.value);
+  }
 
   ngOnInit(): void {
     this.getType();
@@ -37,12 +46,26 @@ export class CreateLeaveRequestComponent implements OnInit {
       item.style.width = '45%';
     }
   }
-
+  // tslint:disable-next-line:typedef
+  addLeaveDate() {
+    // tslint:disable-next-line:no-unused-expression
+    this.leaveDateNums.push(Math.random());
+    console.log(this.leaveDateNums);
+  }
+  // tslint:disable-next-line:typedef
+  removeLeaveDate(item) {
+    console.log(item);
+    console.log(this.leaveDateNums);
+    console.log(this.leaveDateNums.indexOf(item));
+    this.leaveDateNums.splice(this.leaveDateNums.indexOf(item));
+    console.log(this.leaveDateNums);
+  }
   CreatLeave(): void{
     this.messageService.clearAll();
     if (this.Validate()) {
       // tslint:disable-next-line:max-line-length
-      const objPut = {name: this.leaveName, LeaveDates: this.leaveDate, LeaveTime: this.leaveTime, LeaveTypeId: this.leaveType, Reason: this.leaveReason};
+      const objPut = {name: this.leaveName, LeaveDates: this.leaveDates, LeaveTime: this.leaveTime, LeaveTypeId: this.leaveType, Reason: this.leaveReason};
+      console.log(objPut);
       // @ts-ignore
       this.leaveService.createLeave(objPut)
       .subscribe(result => {
@@ -66,7 +89,7 @@ export class CreateLeaveRequestComponent implements OnInit {
       isValid = false;
     }
 
-    if (this.leaveDate == null) {
+    if (this.leaveDates == 0) {
       this.messageService.add({type: 'danger', content: 'Please Select Leave Date'});
       isValid = false;
     }

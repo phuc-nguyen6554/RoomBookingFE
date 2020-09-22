@@ -17,16 +17,24 @@ export class NavibarComponent implements OnInit {
     Name: 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name',
     Avatar : 'Avatar'
   };
-
+  private isLogin: boolean;
   constructor(private jwtHelper: JwtHelperService, private authService: SocialAuthService, private router: Router) { }
 
   ngOnInit(): void {
+    if (localStorage.getItem('JWT_token')) {
+      this.isLogin = true;
+    }
+    else {
+      this.isLogin = false;
+    }
+    console.log(this.isLogin);
     const decode = this.jwtHelper.decodeToken();
     this.username = decode[this.Claimtypes.Name];
     this.avatar = decode[this.Claimtypes.Avatar];
   }
 
   logout(): void{
+    this.isLogin = false;
     localStorage.removeItem('JWT_token');
     this.authService.signOut(true)
       .catch(error => {

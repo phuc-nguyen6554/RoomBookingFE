@@ -26,7 +26,7 @@ export class LeaveService {
   }
 
   createLeave(leave: Leave): Observable<any>{
-    return this.http.post<any>(this.apiEndpointCreate, leave, {headers: this.header, observe: 'response'});
+      return this.http.post<any>(this.apiEndpointCreate, leave, {headers: this.header, observe: 'response'});
   }
 
   deleteBooking(id: number): Observable<any>{
