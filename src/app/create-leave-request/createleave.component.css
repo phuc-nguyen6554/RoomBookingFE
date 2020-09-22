@@ -1,3 +1,7 @@
+.remove-leave-date {
+  margin-top:20px;
+  position: relative;
+}
 .mat-radio-button ~ .mat-radio-button {
   display:block !important;
 }

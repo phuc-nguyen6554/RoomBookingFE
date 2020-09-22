@@ -2,6 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { SigninService } from '../Services/Auth/signin.service';
 import {SocialAuthService, GoogleLoginProvider} from 'angularx-social-login';
 import { Router } from '@angular/router';
+import {AppComponent} from '../app.component';
 
 @Component({
   selector: 'app-signin',

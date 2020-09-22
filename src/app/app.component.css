@@ -1,3 +1,8 @@
 nz-content{
   min-height: 100vh;
 }
+.logout {
+  float:right;
+  color:white;
+  cursor:pointer;
+}
