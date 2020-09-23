@@ -17,7 +17,6 @@ export class CreateLeaveRequestComponent implements OnInit {
   leaveDates: string[] = [];
   isSelectLeaveDate: boolean;
   leaveName: string;
-  leaveDate: string;
   leaveReason: string;
   leaveTime: number;
   leaveType: number;
@@ -28,7 +27,9 @@ export class CreateLeaveRequestComponent implements OnInit {
   // tslint:disable-next-line:typedef
   onChangeDatesEvent(event: any, index){
     this.isSelectLeaveDate = true;
-    this.leaveDates[index] = event.target.value;
+    // this.leaveDates[index] = event.target.value;
+    this.leaveDates.push(event.target.value);
+    console.log(this.leaveDates);
   }
 
   ngOnInit(): void {
