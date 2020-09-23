@@ -15,7 +15,7 @@ import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 export class CreateLeaveRequestComponent implements OnInit {
   leaveDateNums = [Math.random()];
   leaveDates: string[] = [];
-
+  isSelectLeaveDate: boolean;
   leaveName: string;
   leaveDate: string;
   leaveReason: string;
@@ -26,11 +26,13 @@ export class CreateLeaveRequestComponent implements OnInit {
               private messageService: MessageService) { }
 
   // tslint:disable-next-line:typedef
-  onChangeDatesEvent(event: any){
-    this.leaveDates.push(event.target.value);
+  onChangeDatesEvent(event: any, index){
+    this.isSelectLeaveDate = true;
+    this.leaveDates[index] = event.target.value;
   }
 
   ngOnInit(): void {
+    this.isSelectLeaveDate = false;
     this.getType();
     this.setInputWidth();
   }
@@ -54,13 +56,11 @@ export class CreateLeaveRequestComponent implements OnInit {
   }
   // tslint:disable-next-line:typedef
   removeLeaveDate(item) {
-    console.log(item);
-    console.log(this.leaveDateNums);
-    console.log(this.leaveDateNums.indexOf(item));
     this.leaveDateNums.splice(this.leaveDateNums.indexOf(item));
     console.log(this.leaveDateNums);
   }
   CreatLeave(): void{
+    console.log(this.leaveDates);
     this.messageService.clearAll();
     if (this.Validate()) {
       // tslint:disable-next-line:max-line-length
@@ -89,8 +89,14 @@ export class CreateLeaveRequestComponent implements OnInit {
       isValid = false;
     }
 
-    if (this.leaveDates == 0) {
+    if (this.isSelectLeaveDate === false) {
       this.messageService.add({type: 'danger', content: 'Please Select Leave Date'});
+      isValid = false;
+    }
+
+    // check duplicate date
+    if ((new Set(this.leaveDates)).size !== this.leaveDates.length) {
+      this.messageService.add({type: 'danger', content: 'Leave Date is duplicate'});
       isValid = false;
     }
 
@@ -103,6 +109,7 @@ export class CreateLeaveRequestComponent implements OnInit {
       this.messageService.add({type: 'danger', content: 'Please Select Leave Type'});
       isValid = false;
     }
+
 
     return isValid;
   }

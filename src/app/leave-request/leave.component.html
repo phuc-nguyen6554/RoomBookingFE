@@ -1,31 +1,67 @@
 <style>
-    .booking-table{
-        width: 100%;
-        text-align: center;
-    }
+  .booking-table {
+    width: 100%;
+    text-align: center;
+  }
 </style>
 
-<p >
-    <ngb-alert [type]="message.type" *ngIf="message" (close)="close()">{{ message.message }}</ngb-alert>
+<p>
+  <ngb-alert [type]="message.type" *ngIf="message" (close)="close()">{{ message.message }}</ngb-alert>
 </p>
 
-<a [routerLink]="['/leave-request-create']" class="btn btn-link">Create Leave Request</a>
-<table class="booking-table table table-striped">
-    <tr>
-        <th>Name</th>
-        <th>Leave Date</th>
-        <th>AM/PM/All day</th>
-        <th>Leave Type</th>
-        <th>Reason</th>
-       <th></th>
-    </tr>
+<div class="filter-wrapper">
+  <div class="input-group">
+    <mat-label class="leave_label">Leave Type</mat-label>
+  </div>
 
-      <tr *ngFor="let item of leaves" id="{{item.id}}">
-        <td>{{item.name}}</td>
-        <td>{{item.leaveDates | date}}</td>
-        <td>{{item.leaveTime}}</td>
-        <td>{{item.leaveType}}</td>
-        <td>{{item.reason}}</td>
-        <td><button (click)="delete(item.id)" class="btn btn-danger">Delete</button></td>
-    </tr>
+  <div class="input-group">
+    <mat-radio-group [(ngModel)]="leaveType" aria-label="Select an option">
+      <mat-radio-button *ngFor="let item of LeaveType" (change)="radioChange($event)"
+                        value="{{item.id}}">{{item.name}}</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <div class="input-group">
+    <mat-label class="leave_label">AM/PM/All day</mat-label>
+  </div>
+
+  <div class="input-group">
+    <mat-radio-group aria-label="Select an option">
+      <mat-radio-button (click)="getFilterLeave({'LeaveTime':'AM'})" value="AM">AM</mat-radio-button>
+      <mat-radio-button (click)="getFilterLeave({'LeaveTime':'PM'})" value="PM">PM</mat-radio-button>
+      <mat-radio-button (click)="getFilterLeave({'LeaveTime':'Fullday'})" value="Fullday">Fullday</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <div class="input-group">
+    <mat-form-field appearance="fill">
+      <mat-label>Leave Date</mat-label>
+      <input matInput type="date"
+             placeholder="Enter leave date" (change)="onChangeDatesEvent($event)">
+    </mat-form-field>
+  </div>
+</div>
+
+<a [routerLink]="['/leave-request-create']" class="btn btn-link">Create Leave Request</a>
+
+<table class="booking-table table table-striped">
+  <tr>
+    <th>Name</th>
+    <th>Leave Date</th>
+    <th>AM/PM/All day</th>
+    <th>Leave Type</th>
+    <th>Reason</th>
+    <th></th>
+  </tr>
+
+  <tr *ngFor="let item of leaves" id="{{item.id}}">
+    <td>{{item.name}}</td>
+    <td>{{item.leaveDates | date}}</td>
+    <td>{{item.leaveTime}}</td>
+    <td>{{item.leaveType}}</td>
+    <td>{{item.reason}}</td>
+    <td>
+      <button (click)="delete(item.id)" class="btn btn-danger">Delete</button>
+    </td>
+  </tr>
 </table>
