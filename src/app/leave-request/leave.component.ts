@@ -5,6 +5,8 @@ import {Leave} from '../Models/Leave';
 import { LeaveType } from '../Models/LeaveType';
 import {TypeService} from '../Services/LeaveRequest/type.service';
 import {MatRadioChange} from '@angular/material/radio';
+import {MatSelectModule, MatSelect} from '@angular/material/select';
+
 
 @Component({
   selector: 'app-leave',
@@ -42,13 +44,27 @@ export class LeaveComponent implements OnInit {
   }
 
   // tslint:disable-next-line:typedef
-  radioChange(event: MatRadioChange) {
-    this.getFilterLeave({LeaveTypeId: event.value});
+  dropDownChange(event: any, type: any){
+    console.log(event);
+    switch(type){
+      case 'leave-type':
+        this.getFilterLeave({LeaveTypeId : event.target.value});
+        break;
+      case 'leave-time':  
+        this.getFilterLeave({LeaveTime : event.target.value});
+    }
   }
 
   getFilterLeave(obj): void{
     this.leaveService.getFilterLeave(obj)
-      .subscribe(result => {this.leaves = result; console.log(result); });
+      .subscribe(result => {this.leaves = result; console.log(result); 
+        if(result.length == 0) {
+          this.message = {type: 'danger', message: 'Record not found'};
+        }
+        else {
+          this.message = '';
+        }
+      });
   }
 
   delete(id: number): void {

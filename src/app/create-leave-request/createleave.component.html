@@ -11,13 +11,13 @@
     <span (click)="addLeaveDate()" class="material-icons">add_task</span>
   </div>
 
-  <div class="input-group" *ngFor="let item of leaveDateNums">
+  <div class="input-group" *ngFor="let item of leaveDateNums; index as i">
     <mat-form-field appearance="fill">
       <mat-label>Leave Date</mat-label>
       <input matInput type="date"
-             placeholder="Enter leave date" (change)="onChangeDatesEvent($event,this.item)">
+             placeholder="Enter leave date" (change)="onChangeDatesEvent($event,i)">
     </mat-form-field>
-    <span (click)="removeLeaveDate(this.item)" class="material-icons remove-leave-date">remove</span>
+    <span (click)="removeLeaveDate(i)" class="material-icons remove-leave-date">remove</span>
   </div>
 
   <div class="input-group">
