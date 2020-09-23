@@ -9,7 +9,6 @@
   <ngb-alert [type]="message.type" *ngIf="message" (close)="close()">{{ message.message }}</ngb-alert>
 </p>
 
-<a [routerLink]="['/leave-request-create']" class="btn btn-link">Create Leave Request</a>
 <div class="filter-wrapper">
   <div class="input-group">
     <mat-label>Leave Type</mat-label>
@@ -42,6 +41,9 @@
     </mat-form-field>
   </div>
 </div>
+
+<a [routerLink]="['/leave-request-create']" class="btn btn-link">Create Leave Request</a>
+
 <table class="booking-table table table-striped">
   <tr>
     <th>Name</th>
