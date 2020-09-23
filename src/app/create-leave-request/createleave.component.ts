@@ -27,8 +27,8 @@ export class CreateLeaveRequestComponent implements OnInit {
   // tslint:disable-next-line:typedef
   onChangeDatesEvent(event: any, index){
     this.isSelectLeaveDate = true;
-    // this.leaveDates[index] = event.target.value;
-    this.leaveDates.push(event.target.value);
+    this.leaveDates[index] = event.target.value;
+    // this.leaveDates.push(event.target.value);
     console.log(this.leaveDates);
   }
 
@@ -56,9 +56,10 @@ export class CreateLeaveRequestComponent implements OnInit {
     console.log(this.leaveDateNums);
   }
   // tslint:disable-next-line:typedef
-  removeLeaveDate(item) {
-    this.leaveDateNums.splice(this.leaveDateNums.indexOf(item));
-    console.log(this.leaveDateNums);
+  removeLeaveDate(key) {
+    this.leaveDateNums.splice(key, 1);
+    this.leaveDates.splice(key, 1);
+    console.log();
   }
   CreatLeave(): void{
     console.log(this.leaveDates);
